@@ -1,5 +1,22 @@
 class UsersController < ApplicationController
-def new_registration_form
+def authenticate
+# get the username from params
+# get the password from params
+# look up the record
+
+
+end 
+
+  def new_session_form
+render({ :template => "users/signin_form.html.erb" })
+end 
+
+  def toast_cookies
+  reset_session
+  redirect_to("/", { :notice => "see ya later!"})
+end 
+
+  def new_registration_form
   render({ :template => "users/signup_form.html.erb" })
 end 
 
@@ -26,6 +43,8 @@ end
     save_status = user.save
 
     if save_status == true
+    session.store(:user_id, user.id)
+
     redirect_to("/users/#{user.username}", { :notice => "Welcome, " + user.username + "!" })  
     else
       redirect_to("/user_sign_up", { :alert => user.errors.full_messages.to_sentence })
